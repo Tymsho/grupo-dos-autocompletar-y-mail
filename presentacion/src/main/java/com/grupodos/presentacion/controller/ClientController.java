@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/clients")
+@CrossOrigin("*")
 public class ClientController {
 
     private final ClientRepository clientRepository;
@@ -27,7 +28,7 @@ public class ClientController {
     public ResponseEntity<List<Client>> searchClients(@RequestParam(required = false, defaultValue = "") String q) {
         List<Client> results;
         if (q == null || q.trim().isEmpty()) {
-            results = clientRepository.findAll().stream().limit(5).collect(Collectors.toList());
+            results = clientRepository.findAll().stream().limit(10).collect(Collectors.toList());
         } else {
             results = clientRepository.findByNameContainingIgnoreCase(q);
         }

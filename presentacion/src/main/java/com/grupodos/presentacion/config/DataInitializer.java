@@ -19,8 +19,9 @@ public class DataInitializer {
                 clientRepository.save(new Client("Ana Lopez", "ana.lopez@example.com", "PENDING"));
                 clientRepository.save(new Client("Lucia Fernandez", "lucia.fernandez@example.com", "ACTIVE"));
                 clientRepository.save(new Client("Marcos Ruiz", "marcos.ruiz@example.com", "INACTIVE"));
-                
-                System.out.println("Base de datos inicializada con 6 clientes de prueba.");
+                clientRepository.save(new Client("Gonzalo Crespo", "gonzalocrespo02@gmail.com", "ACTIVE"));
+
+                System.out.println("Base de datos inicializada con 7 clientes de prueba.");
             }
         };
     }
