@@ -1,16 +1,22 @@
 import { useState, useEffect } from 'react';
 import useDebounce from '../hooks/useDebounce';
 
+/**
+ * Componente que muestra una barra de búsqueda con autocompletado.
+ * @param {Object} props - Propiedades del componente.
+ * @param {Function} props.onSelectClient - Función a ejecutar al seleccionar un cliente.
+ */
 function SearchAutocomplete({ onSelectClient }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Hook personalizado para retrasar la búsqueda (debounce) y no saturar el backend
   const debouncedQuery = useDebounce(query, 300);
 
+  // Efecto que se dispara cada vez que cambia la búsqueda retrasada
   useEffect(() => {
-    // Si el query está vacío, no buscamos (o podemos buscar con q="")
     const fetchClients = async () => {
       setIsSearching(true);
       try {
@@ -28,10 +34,11 @@ function SearchAutocomplete({ onSelectClient }) {
     fetchClients();
   }, [debouncedQuery]);
 
+  // Manejador para cuando el usuario hace clic en un resultado de la lista
   const handleSelect = (client) => {
-    onSelectClient(client);
-    setQuery(''); // Limpiamos el input o lo dejamos con el nombre
-    setIsOpen(false);
+    onSelectClient(client); // Envía el cliente seleccionado al componente padre (App.jsx)
+    setQuery(''); // Limpia el input tras la selección
+    setIsOpen(false); // Cierra el menú desplegable
   };
 
   return (
@@ -45,6 +52,7 @@ function SearchAutocomplete({ onSelectClient }) {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsOpen(true)}
         />
+        {/* Indicador visual animado mientras se espera la respuesta del servidor */}
         {isSearching && (
           <div className="searching-indicator">
             <div className="dot dot-1"></div>
@@ -54,6 +62,7 @@ function SearchAutocomplete({ onSelectClient }) {
         )}
       </div>
 
+      {/* Lista desplegable de resultados, visible solo si está abierta y hay clientes */}
       {isOpen && results.length > 0 && (
         <ul className="dropdown-list">
           {results.map((client) => (
@@ -74,6 +83,7 @@ function SearchAutocomplete({ onSelectClient }) {
         </ul>
       )}
 
+      {/* Mensaje cuando la búsqueda no arroja resultados */}
       {isOpen && !isSearching && results.length === 0 && (
         <div className="no-results">
           No se encontraron clientes.

@@ -6,12 +6,23 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuración encargada de poblar la base de datos en memoria (H2)
+ * con datos iniciales cada vez que la aplicación arranca.
+ */
 @Configuration
 public class DataInitializer {
 
+    /**
+     * Bean de CommandLineRunner que se ejecuta automáticamente al iniciar Spring Boot.
+     *
+     * @param clientRepository El repositorio para realizar el guardado en la BD.
+     * @return Una función que inserta los clientes si la tabla está vacía.
+     */
     @Bean
     public CommandLineRunner initData(ClientRepository clientRepository) {
         return args -> {
+            // Solo insertamos datos si la tabla de clientes está vacía
             if (clientRepository.count() == 0) {
                 clientRepository.save(new Client("Juan Perez", "juan.perez@example.com", "ACTIVE"));
                 clientRepository.save(new Client("Maria Gomez", "maria.gomez@example.com", "INACTIVE"));

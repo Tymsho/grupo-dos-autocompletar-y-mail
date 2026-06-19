@@ -2,7 +2,12 @@ import { useState } from 'react';
 import SearchAutocomplete from './components/SearchAutocomplete';
 import ClientDetailCard from './components/ClientDetailCard';
 
+/**
+ * Componente principal de la aplicación.
+ * Gestiona el estado global (cliente seleccionado) y renderiza la estructura principal.
+ */
 function App() {
+  // Estado para almacenar el cliente que el usuario ha seleccionado en la búsqueda
   const [selectedClient, setSelectedClient] = useState(null);
 
   return (
@@ -22,14 +27,14 @@ function App() {
         </div>
 
         <div className="content-wrapper">
-          {/* Search section */}
+          {/* SECCIÓN DE BÚSQUEDA: Contiene el input autocompletable */}
           <div className="search-section">
             <SearchAutocomplete 
               onSelectClient={(client) => setSelectedClient(client)} 
             />
           </div>
 
-          {/* Details section */}
+          {/* SECCIÓN DE DETALLES: Muestra la tarjeta del cliente o un estado vacío */}
           <div>
             {selectedClient ? (
               <ClientDetailCard 

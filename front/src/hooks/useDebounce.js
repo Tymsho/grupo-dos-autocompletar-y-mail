@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Custom Hook para retrasar la actualización de un valor (debounce).
+ * Útil para evitar peticiones excesivas a una API mientras el usuario escribe.
+ * 
+ * @param {any} value - El valor actual que queremos retrasar (ej. texto del input).
+ * @param {number} delay - El tiempo en milisegundos a esperar antes de actualizar.
+ * @returns {any} El valor debanceado tras esperar el tiempo indicado.
+ */
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
